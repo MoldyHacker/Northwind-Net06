@@ -8,6 +8,4 @@ public class Rating
     public string Comment {get; set;}
     public int ProductId {get; set;}
     public Product Product {get; set;}
-
-
 }
