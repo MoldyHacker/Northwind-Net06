@@ -45,12 +45,13 @@
           $('#product_rows').html("");
             for (var i = 0; i < response.length; i++){
               var css = response[i].discontinued ? " class='discontinued'" : "";
+              var rating = '<i class="fa-sharp fa-solid fa-star"></i><i class="fa-sharp fa-solid fa-star"></i><i class="fa-sharp fa-solid fa-star"></i><i class="fa-sharp fa-solid fa-star"></i><i class="fa-sharp fa-regular fa-star"></i>';
               var row = `<tr${css}>
                 <td>${response[i].productName}</td>
                 <td class="text-right">${response[i].unitPrice.toFixed(2)}</td>
                 <td class="text-right">${response[i].unitsInStock}</td>
-                @* <td class="text-right">${response[i].unitsInStock}</td> *@
-              </tr>`;
+                <td class="text-right">${rating}</td>
+                </tr>`;
               $('#product_rows').append(row);
             }
         },
