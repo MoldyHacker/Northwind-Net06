@@ -78,4 +78,13 @@ public class CustomerController : Controller
             ModelState.AddModelError("", error.Description);
         }
     }
+    [Authorize(Roles = "northwind-customer")]
+    public IActionResult Purchases() => View();
+    // [Authorize(Roles = "northwind-customer"), HttpPost, ValidateAntiForgeryToken]
+    // public IActionResult Purchases(Customer customer)
+    // {
+    //     // Edit customer info
+    //     _dataContext.EditCustomer(customer);
+    //     return RedirectToAction("Index", "Home");
+    // }
 }
