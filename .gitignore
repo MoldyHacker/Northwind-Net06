@@ -3,3 +3,5 @@ bin
 obj
 Properties
 appsettings.json
+Customers.csv
+MOCK_DATA_REVIEWS.sql

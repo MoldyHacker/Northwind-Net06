@@ -79,7 +79,7 @@ public class CustomerController : Controller
         }
     }
     [Authorize(Roles = "northwind-customer")]
-    public IActionResult Purchases() => View();
+    public IActionResult Purchases() => View(_dataContext.Orders.OrderBy(o => o.OrderId).Where(c => c.CustomerId == 25));
     // [Authorize(Roles = "northwind-customer"), HttpPost, ValidateAntiForgeryToken]
     // public IActionResult Purchases(Customer customer)
     // {

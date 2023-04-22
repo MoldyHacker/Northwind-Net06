@@ -9,6 +9,8 @@ public class DataContext : DbContext
   public DbSet<Discount> Discounts { get; set; }
   public DbSet<Customer> Customers { get; set; }
   public DbSet<Review> Reviews { get; set; }
+  public DbSet<Order> Orders { get; set; }
+  public DbSet<OrderDetail> OrderDetails { get; set; }
 
   public void AddCustomer(Customer customer)
   {
@@ -25,6 +27,12 @@ public class DataContext : DbContext
     customerToUpdate.Country = customer.Country;
     customerToUpdate.Phone = customer.Phone;
     customerToUpdate.Fax = customer.Fax;
+    SaveChanges();
+  }
+
+  public void AddReview(Review review)
+  {
+    Reviews.Add(review);
     SaveChanges();
   }
 }
