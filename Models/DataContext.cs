@@ -29,10 +29,16 @@ public class DataContext : DbContext
     customerToUpdate.Fax = customer.Fax;
     SaveChanges();
   }
-
   public void AddReview(Review review)
   {
     Reviews.Add(review);
+    SaveChanges();
+  }
+  public void EditReview(Review review)
+  {
+    var reviewToUpdate = Reviews.FirstOrDefault(r => r.ReviewId == review.ReviewId);
+    reviewToUpdate.Rating = review.Rating;
+    reviewToUpdate.Comment = review.Comment;
     SaveChanges();
   }
 }

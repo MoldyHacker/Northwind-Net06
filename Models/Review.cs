@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 public class Review
 {
     public int ReviewId {get; set;}
-    [Required(ErrorMessage ="Review is required")]
+    [Required(ErrorMessage = "Review is required")]
     [Range(1,5, ErrorMessage = "Must be 1-5")]
     public int Rating {get; set;}
     public string Comment {get; set;}

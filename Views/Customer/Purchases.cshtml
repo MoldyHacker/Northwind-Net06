@@ -12,13 +12,13 @@
 <tbody id="product_rows" data-id="@ViewBag.id">
 
 
-    
+
 </tbody>
 </table>
 
 <div class="list-group">
     @foreach (Order o in Model)
     {
-        <a asp-action="PurchaseDetails" asp-route-id="@o.OrderId" class="list-group-item list-group-item-action">@o.OrderId - <i style="opacity:.6;">@o.OrderDate</i></a>
+        <a asp-action="PurchaseDetails" asp-route-id="@o.OrderId" class="list-group-item list-group-item-action">@o.OrderId - ORDER DATE: @o.OrderDate - SHIPPED DATE: @o.ShippedDate</a>
     }
 </div>

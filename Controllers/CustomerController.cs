@@ -79,7 +79,7 @@ public class CustomerController : Controller
         }
     }
     [Authorize(Roles = "northwind-customer")]
-    public IActionResult Purchases() => View(_dataContext.Orders.OrderBy(o => o.OrderId).Where(c => c.CustomerId == 25));
+    public IActionResult Purchases() => View(_dataContext.Orders.OrderBy(o => o.OrderId).Where(o => o.Customer.CompanyName == User.Identity.Name));
     // [Authorize(Roles = "northwind-customer"), HttpPost, ValidateAntiForgeryToken]
     // public IActionResult Purchases(Customer customer)
     // {
@@ -87,4 +87,8 @@ public class CustomerController : Controller
     //     _dataContext.EditCustomer(customer);
     //     return RedirectToAction("Index", "Home");
     // }
+    public IActionResult PurchaseDetail(int id){
+    ViewBag.id = id;
+    return View(_dataContext.OrderDetails.Where(o => o.OrderId == id));
+  }
 }
