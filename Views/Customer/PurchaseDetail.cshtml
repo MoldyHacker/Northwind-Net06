@@ -36,7 +36,7 @@
 <div class="list-group">
     @foreach (OrderDetail od in Model)
     {
-        <a asp-action="PurchaseDetails" asp-route-id="@od.ProductId" class="list-group-item list-group-item-action">@od.OrderId - ORDER DATE: @od.Product.ProductName - SHIPPED DATE: @od.Quantity</a>
+        <a asp-action="ReviewForm" asp-route-id="@od.ProductId" class="list-group-item list-group-item-action">@od.Product.ProductName </a>
     }
 </div>
 

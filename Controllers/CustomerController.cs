@@ -91,4 +91,16 @@ public class CustomerController : Controller
     // ViewBag.id = id;
     return View(_dataContext.OrderDetails.OrderBy(o => o.OrderDetailId).Where(o => o.OrderId == id));
   }
+    public IActionResult Review()=>View();
+    [HttpPost, ValidateAntiForgeryToken]
+    public IActionResult Review(Review review)
+    {
+        if(ModelState.IsValid)
+        {
+            _dataContext.AddReview(review);
+            
+        }
+        return RedirectToAction("PurchaseDetail");
+
+    }
 }
