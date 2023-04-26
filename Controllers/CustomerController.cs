@@ -88,7 +88,7 @@ public class CustomerController : Controller
     //     return RedirectToAction("Index", "Home");
     // }
     public IActionResult PurchaseDetail(int id){
-    ViewBag.id = id;
-    return View(_dataContext.OrderDetails.Where(o => o.OrderId == id));
+    // ViewBag.id = id;
+    return View(_dataContext.OrderDetails.OrderBy(o => o.OrderDetailId).Where(o => o.OrderId == id));
   }
 }
