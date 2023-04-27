@@ -1,7 +1,8 @@
-@model IEnumerable<Order>
+@model IEnumerable<Product>
 <h2 class="mt-3"><i class="fa-solid fa-cart-shopping"></i> Purchases</h2>
+<h4>All Purchesed Products</h4>
 
-<table class="table table-hover">
+@* <table class="table table-hover">
   <thead>
     <tr>
       <th scope="col" class="text-left">Order ID</th>
@@ -9,7 +10,7 @@
       <th scope="col" class="text-right">Shipped Date</th>
     </tr>
 </thead>
-<tbody id="product_rows" data-id="@ViewBag.id">
+<tbody id="product_rows" data-id="@ViewBag.id"> *@
 
 
 
@@ -17,8 +18,9 @@
 </table>
 
 <div class="list-group">
-    @foreach (Order o in Model)
+    @foreach (Product p in Model)
     {
-        <a asp-action="PurchaseDetail" asp-route-id="@o.OrderId" class="list-group-item list-group-item-action">@o.OrderId - ORDER DATE: @o.OrderDate - SHIPPED DATE: @o.ShippedDate</a>
+        @* <a asp-action="PurchaseDetail" asp-route-id="@o.OrderId" class="list-group-item list-group-item-action">@o.OrderId - ORDER DATE: @o.OrderDate - SHIPPED DATE: @o.ShippedDate</a> *@
+        <a class="list-group-item list-group-item-action">@p.ProductName</a>
     }
 </div>
