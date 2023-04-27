@@ -79,7 +79,16 @@ public class CustomerController : Controller
         }
     }
     [Authorize(Roles = "northwind-customer")]
-    public IActionResult Purchases() => View(_dataContext.Orders.OrderBy(o => o.OrderId).Where(o => o.Customer.Email == User.Identity.Name));
+    // public IActionResult Purchases() => View(_dataContext.Orders.OrderBy(o => o.OrderId).Where(o => o.Customer.Email == User.Identity.Name));
+    public IActionResult Purchases() => View(
+        (from p in _dataContext.Products
+        join od in _dataContext.OrderDetails on p.ProductId equals od.ProductId
+        join o in _dataContext.Orders on od.OrderId equals o.OrderId
+        where o.Customer.Email == User.Identity.Name
+        select p).Distinct().OrderBy(p => p.ProductName).ToList()
+    );
+    // TODO: Create custom model to update data for the page. 
+
     // [Authorize(Roles = "northwind-customer"), HttpPost, ValidateAntiForgeryToken]
     // public IActionResult Purchases(Customer customer)
     // {
@@ -103,4 +112,8 @@ public class CustomerController : Controller
         return RedirectToAction("PurchaseDetail");
 
     }
+
+    [Authorize(Roles = "northwind-customer")]
+    public IActionResult Reviews() => View(_dataContext.Reviews.Where(r => r.Customer.Email == User.Identity.Name).OrderBy(r => r.DateTime));
+
 }
