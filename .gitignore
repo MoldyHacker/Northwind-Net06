@@ -5,3 +5,4 @@ Properties
 appsettings.json
 Customers.csv
 MOCK_DATA_REVIEWS.sql
+Customers(email,email,pswd).csv
