@@ -30,7 +30,7 @@ public class DataContext : DbContext
     customerToUpdate.Fax = customer.Fax;
     SaveChanges();
   }
-  public void AddReview(Review review)
+  public void InputReview(Review review)
   {
     Reviews.Add(review);
     SaveChanges();
