@@ -84,6 +84,7 @@ public class CustomerController : Controller
         (from p in _dataContext.Products
         join od in _dataContext.OrderDetails on p.ProductId equals od.ProductId
         join o in _dataContext.Orders on od.OrderId equals o.OrderId
+        // join r in _dataContext.Reviews on o.CustomerId equals r.CustomerId
         where o.Customer.Email == User.Identity.Name
         select p).Distinct().OrderBy(p => p.ProductName).ToList()
     );
@@ -100,7 +101,16 @@ public class CustomerController : Controller
     // ViewBag.id = id;
     return View(_dataContext.OrderDetails.OrderBy(o => o.OrderDetailId).Where(o => o.OrderId == id));
   }
-    public IActionResult Review()=>View();
+    public IActionResult Reviews() => View(
+        from r in _dataContext.Reviews
+        join p in _dataContext.Products on r.ProductId equals p.ProductId
+        join od in _dataContext.OrderDetails on p.ProductId equals od.ProductId
+        join o in _dataContext.Orders on od.OrderId equals o.OrderId
+        where o.Customer.Email == User.Identity.Name
+        select r
+    );
+
+
     [HttpPost, ValidateAntiForgeryToken]
     public IActionResult Review(Review review)
     {
@@ -113,7 +123,7 @@ public class CustomerController : Controller
 
     }
 
-    [Authorize(Roles = "northwind-customer")]
-    public IActionResult Reviews() => View(_dataContext.Reviews.Where(r => r.Customer.Email == User.Identity.Name).OrderBy(r => r.DateTime));
+    // [Authorize(Roles = "northwind-customer")]
+    // public IActionResult Reviews() => View(_dataContext.Reviews.Where(r => r.Customer.Email == User.Identity.Name).OrderBy(r => r.DateTime));
 
 }
