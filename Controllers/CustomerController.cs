@@ -97,29 +97,22 @@ public class CustomerController : Controller
     //     _dataContext.EditCustomer(customer);
     //     return RedirectToAction("Index", "Home");
     // }
-    public IActionResult PurchaseDetail(int id){
+    public IActionResult PurchaseDetail(int id)
+    {
     // ViewBag.id = id;
     return View(_dataContext.OrderDetails.OrderBy(o => o.OrderDetailId).Where(o => o.OrderId == id));
   }
-    public IActionResult Reviews() => View(
-        from r in _dataContext.Reviews
-        join p in _dataContext.Products on r.ProductId equals p.ProductId
-        join od in _dataContext.OrderDetails on p.ProductId equals od.ProductId
-        join o in _dataContext.Orders on od.OrderId equals o.OrderId
-        where o.Customer.Email == User.Identity.Name
-        select r
-    );
-
-
+    public IActionResult Review()=>View();
     [HttpPost, ValidateAntiForgeryToken]
-    public IActionResult Review(Review review)
+    public IActionResult InputReview(int id, Review review)
     {
+        review.ProductId = id;
         if(ModelState.IsValid)
         {
-            _dataContext.AddReview(review);
+            _dataContext.InputReview(review);
             
         }
-        return RedirectToAction("PurchaseDetail");
+        return RedirectToAction("Reviews");
 
     }
 
