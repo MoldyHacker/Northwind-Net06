@@ -1,5 +1,6 @@
 $(function () {
     getProducts()
+    
     function getProducts() {
       var discontinued = $('#Discontinued').prop('checked') ? "" : "/discontinued/false";
       $.getJSON({
@@ -24,13 +25,16 @@ $(function () {
         }
       });
     }
+
     $('#CategoryId').on('change', function(){
       $('#product_rows').data('id', $(this).val());
       getProducts();
     });
+
     $('#Discontinued').on('change', function(){
       getProducts();
     });
+
     // delegated event listener
     $('#product_rows').on('click', 'tr', function(){
         // make sure a customer is logged in
@@ -45,11 +49,13 @@ $(function () {
         toast("Access Denied", "You must be signed in as a customer to access the cart.");
       }
     });
+
       // update total when cart quantity is changed
     $('#Quantity').change(function () {
         var total = parseInt($(this).val()) * parseFloat($('#UnitPrice').html());
         $('#Total').html(numberWithCommas(total.toFixed(2)));
     });
+    
       // function to display commas in number
     function numberWithCommas(x) {
         return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
