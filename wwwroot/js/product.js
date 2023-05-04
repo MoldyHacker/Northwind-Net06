@@ -8,12 +8,12 @@ $(function () {
           $('#product_rows').html("");
             for (var i = 0; i < response.length; i++){
               var css = response[i].discontinued ? " class='discontinued'" : "";
-              var rating = '<i class="fa-sharp fa-solid fa-star"></i><i class="fa-sharp fa-solid fa-star"></i><i class="fa-sharp fa-solid fa-star"></i><i class="fa-sharp fa-solid fa-star"></i><i class="fa-sharp fa-regular fa-star"></i>';
+              // var rating = '<i class="fa-sharp fa-solid fa-star"></i><i class="fa-sharp fa-solid fa-star"></i><i class="fa-sharp fa-solid fa-star"></i><i class="fa-sharp fa-solid fa-star"></i><i class="fa-sharp fa-regular fa-star"></i>';
               var row = `<tr${css} data-id="${response[i].productId}" data-name="${response[i].productName}" data-price="${response[i].unitPrice}">
                 <td>${response[i].productName}</td>
                 <td class="text-right">${response[i].unitPrice.toFixed(2)}</td>
                 <td class="text-right">${response[i].unitsInStock}</td>
-                <td class="text-right">${rating}</td>
+                <td class="text-right">${getRating(response[i].productId)}</td>
                 </tr>`;
               $('#product_rows').append(row);
             }
@@ -81,4 +81,24 @@ $(function () {
         $('#toast_body').html(message);
         $('#cart_toast').toast({ delay: 2500 }).toast('show');
       }
+    function getRating(productId){
+      $.getJSON({
+        url:`../api/review/${productId}}`, 
+        success: function (response, textStatus, jqXhr) {
+          var rating = 0;
+          var count = 0;
+            for (var i = 0; i < response.length; i++){
+              rating += response[i].rating;
+              count++;
+            }
+          var avgRating = rating/count;
+          return Math.round(avgRating);
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+          // log the error to the console
+          console.log("The following error occured: " + textStatus, errorThrown);
+        }
+        
+      })
+    }
     });
