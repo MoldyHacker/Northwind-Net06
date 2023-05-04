@@ -102,7 +102,15 @@ public class CustomerController : Controller
     // ViewBag.id = id;
     return View(_dataContext.OrderDetails.OrderBy(o => o.OrderDetailId).Where(o => o.OrderId == id));
   }
-    public IActionResult Review()=>View();
+    public IActionResult Reviews() => View(
+        (from r in _dataContext.Reviews
+        join p in _dataContext.Products on r.ProductId equals p.ProductId
+        join od in _dataContext.OrderDetails on p.ProductId equals od.ProductId
+        join o in _dataContext.Orders on od.OrderId equals o.OrderId
+        where o.Customer.Email == User.Identity.Name
+        select r).OrderBy(r => r.ProductId).ToList()
+    );
+
     [HttpPost, ValidateAntiForgeryToken]
     public IActionResult InputReview(int id, Review review)
     {
@@ -113,7 +121,6 @@ public class CustomerController : Controller
             
         }
         return RedirectToAction("Reviews");
-
     }
 
     // [Authorize(Roles = "northwind-customer")]

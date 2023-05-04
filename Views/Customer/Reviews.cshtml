@@ -1,7 +1,7 @@
 @model IEnumerable<Review>
 <h2 class="mt-3"><i class="fa-solid fa-cart-shopping"></i> Reviews</h2>
 
-<table class="table table-hover">
+@* <table class="table table-hover">
   <thead>
     <tr>
       <th scope="col" class="text-left">Product Name</th>
@@ -12,14 +12,21 @@
 </thead>
 <tbody id="product_rows" data-id="@ViewBag.id">
 
-
-
 </tbody>
-</table>
+</table> *@
 
 <div class="list-group">
     @foreach (Review r in Model)
     {
-        <a class="list-group-item list-group-item-action">@r.Product.ProductName - @r.Rating</a>
+        <a class="list-group-item list-group-item-action" data-rating="@r.Rating">ProductID: @r.ProductId - Rating: @r.Rating - CustomerID: @r.CustomerId</a>
     }
 </div>
+
+@section Scripts
+{
+<script>
+  
+  let rating = $('.list-group-item').data('rating')
+  $('.list-group-item').append('<i class="fa fa-star"></i>').append(rating)
+</script>
+}
