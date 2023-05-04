@@ -68,16 +68,20 @@ namespace Northwind.Controllers
             };
             return productReviews;
         }
-
-        [HttpPost, Route("api/addtocart")]
-        // returns all reviews for a specfic product based on a specfic customer
+        
         [HttpGet, Route("api/review")]
         public IEnumerable<Review> GetAllReviews()=>_dataContext.Reviews.OrderBy(r => r.ReviewId);
+        
         [HttpGet, Route("api/review/{ProductId}")]
-        public IEnumerable<Review> GetProductReviews(int ProductId) => _dataContext.Reviews.Where(r => r.ProductId == ProductId);
+        public IEnumerable<Review> GetProductReviews(int ProductId) => _dataContext.Reviews.Include("Customer").Where(r => r.ProductId == ProductId);
         // public IEnumerable<Review> GetProductReview(int ProductId, int CustomerId) => _dataContext.Reviews.Where(r => r.ProductId == ProductId && r.CustomerId == CustomerId).OrderBy(r => r.Product.ProductName);
+        
         [HttpPost, Route("api/addtocart")]
         // adds a row to the cartitem table
         public CartItem Post([FromBody] CartItemJSON cartItem) => _dataContext.AddToCart(cartItem);
+
+        // [HttpPost, Route("api/addreview")]
+        // // adds a row to the cartitem table
+        // public CartItem Post([FromBody] CartItemJSON cartItem) => _dataContext.AddToCart(cartItem);
     }
 }
