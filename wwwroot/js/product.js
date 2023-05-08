@@ -9,12 +9,12 @@ $(function () {
           $('#product_rows').html("");
             for (var i = 0; i < response.length; i++){
               var css = response[i].discontinued ? " class='discontinued'" : "";
-              // var rating = '<i class="fa-sharp fa-solid fa-star"></i><i class="fa-sharp fa-solid fa-star"></i><i class="fa-sharp fa-solid fa-star"></i><i class="fa-sharp fa-solid fa-star"></i><i class="fa-sharp fa-regular fa-star"></i>';
+              var rating = Math.round(response[i].avgRating);
               var row = `<tr${css} data-id="${response[i].productId}" data-name="${response[i].productName}" data-price="${response[i].unitPrice}">
                 <td>${response[i].productName}</td>
                 <td class="text-right">${response[i].unitPrice.toFixed(2)}</td>
                 <td class="text-right">${response[i].unitsInStock}</td>
-                <td class="text-right">${response[i].avgRating.toFixed(1)}</td>
+                <td class="text-right">${getStars(rating)}</td>
                 </tr>`;
               $('#product_rows').append(row);
             }
@@ -87,24 +87,28 @@ $(function () {
         $('#toast_body').html(message);
         $('#cart_toast').toast({ delay: 2500 }).toast('show');
       }
-    function getRating(productId){
-      $.getJSON({
-        url:`../api/category/{CategoryId}/productwithreviews/discontinued/{discontinued}`, 
-        success: function (response, textStatus, jqXhr) {
-          var rating = 0;
-          var count = 0;
-            for (var i = 0; i < response.length; i++){
-              rating += response[i].rating;
-              count++;
-            }
-          var avgRating = rating/count;
-          return Math.round(avgRating);
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-          // log the error to the console
-          console.log("The following error occured: " + textStatus, errorThrown);
+    function getStars(rating){
+      switch(rating){
+        case 1:
+          return '<i class="fa fa-star checked"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>';
+          break;
+        case 2:
+          return '<i class="fa fa-star checked"></i><i class="fa fa-star checked"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>';
+          break;
+        case 3:
+          return '<i class="fa fa-star checked"></i><i class="fa fa-star checked"></i><i class="fa fa-star checked"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>';
+          break;
+        case 4:
+          return '<i class="fa fa-star checked"></i><i class="fa fa-star checked"></i><i class="fa fa-star checked"></i><i class="fa fa-star checked"></i><i class="fa fa-star"></i>';
+          break;
+        case 5:
+          return '<i class="fa fa-star checked"></i><i class="fa fa-star checked"></i><i class="fa fa-star checked"></i><i class="fa fa-star checked"></i><i class="fa fa-star checked"></i>';
+          break;
+        default:
+          return '<i class="fa fa-star checked"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>';
+          break;
+
         }
-        
-      })
+       
     }
     });

@@ -80,3 +80,6 @@ body {
 #product_rows tr {
   cursor: pointer;
 }
+.checked{
+  color:orange;
+}
