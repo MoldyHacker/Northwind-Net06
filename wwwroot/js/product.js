@@ -4,7 +4,7 @@ $(function () {
     function getProducts() {
       var discontinued = $('#Discontinued').prop('checked') ? "" : "/discontinued/false";
       $.getJSON({
-        url: `../../api/category/${$('#product_rows').data('id')}/product` + discontinued,
+        url: `../../api/category/${$('#product_rows').data('id')}/productwithreviews` + discontinued,
         success: function (response, textStatus, jqXhr) {
           $('#product_rows').html("");
             for (var i = 0; i < response.length; i++){
@@ -14,7 +14,7 @@ $(function () {
                 <td>${response[i].productName}</td>
                 <td class="text-right">${response[i].unitPrice.toFixed(2)}</td>
                 <td class="text-right">${response[i].unitsInStock}</td>
-                <td class="text-right">${getRating(response[i].productId)}</td>
+                <td class="text-right">${response[i].avgRating.toFixed(1)}</td>
                 </tr>`;
               $('#product_rows').append(row);
             }
@@ -89,7 +89,7 @@ $(function () {
       }
     function getRating(productId){
       $.getJSON({
-        url:`../api/review/${productId}}`, 
+        url:`../api/category/{CategoryId}/productwithreviews/discontinued/{discontinued}`, 
         success: function (response, textStatus, jqXhr) {
           var rating = 0;
           var count = 0;
