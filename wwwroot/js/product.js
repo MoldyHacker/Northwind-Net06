@@ -111,7 +111,6 @@ $(function () {
         default:
           return '<i class="fa fa-star checked"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>';
           break;
-
         }
        
     }

@@ -10,7 +10,7 @@ public class ProductController : Controller
     ViewBag.id = id;
     return View(_dataContext.Categories.OrderBy(c => c.CategoryName));
   }
-  public IActionResult Reviews(int ProductId) => View(_dataContext.Products.FirstOrDefault(p => p.ProductId == ProductId).Reviews.ToList());
+  // public IActionResult Reviews(int ProductId) => View(_dataContext.Products.FirstOrDefault(p => p.ProductId == ProductId).Reviews.ToList());
   // public IActionResult Reviews() => View(
   //       (from r in _dataContext.Reviews
   //       join p in _dataContext.Products on r.ProductId equals p.ProductId
@@ -23,4 +23,7 @@ public class ProductController : Controller
   //   ViewBag.id = id;
   //   return View(_dataContext.Categories.OrderBy(c => c.CategoryName));
   //   }
+  public IActionResult Reviews(int id){
+    return View(_dataContext.Reviews.Where(r => r.ProductId == id).OrderBy(r => r.DateTime));
+    }
 }
