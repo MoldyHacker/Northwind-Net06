@@ -14,7 +14,7 @@ $(function () {
                 <td>${response[i].productName}</td>
                 <td class="text-right">${response[i].unitPrice.toFixed(2)}</td>
                 <td class="text-right">${response[i].unitsInStock}</td>
-                <td class="text-right">${getStars(rating)}</td>
+                <a asp-action="Reviews" asp-route-id=${response[i].productId}><td class="text-right">${getStars(rating)}</td></a>
                 </tr>`;
               $('#product_rows').append(row);
             }
