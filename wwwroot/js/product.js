@@ -14,7 +14,7 @@ $(function () {
                 <td>${response[i].productName}</td>
                 <td class="text-right">${response[i].unitPrice.toFixed(2)}</td>
                 <td class="text-right">${response[i].unitsInStock}</td>
-                <td class="text-right">${getStars(rating)}</td>
+                <td class="text-right rating" data-rating="${response[i].productId}">${getStars(rating)}</td>
                 </tr>`;
               $('#product_rows').append(row);
             }
@@ -37,17 +37,22 @@ $(function () {
 
     // delegated event listener
     $('#product_rows').on('click', 'tr', function(){
+        $('.rating').on('click', function(){console.log('click', $(this).data('id'))}) 
+          // console.log('click', $(this).data('id'));
+          // var url = '@Url.Action("Reviews", "Product", new {id = "__id__"})';
+          // window.location.href = url.replace('__id__', $(this).data('id'))
+        
         // make sure a customer is logged in
-      if ($('#User').data('customer').toLowerCase() == "true"){
-        $('#ProductId').html($(this).data('id'));
-        $('#ProductName').html($(this).data('name'));
-        $('#UnitPrice').html($(this).data('price').toFixed(2));
-        // calculate and display total in modal
-        $('#Quantity').change();
-        $('#cartModal').modal();
-      } else {
-        toast("Access Denied", "You must be signed in as a customer to access the cart.");
-      }
+        if ($('#User').data('customer').toLowerCase() == "true"){
+          $('#ProductId').html($(this).data('id'));
+          $('#ProductName').html($(this).data('name'));
+          $('#UnitPrice').html($(this).data('price').toFixed(2));
+          // calculate and display total in modal
+          $('#Quantity').change();
+          $('#cartModal').modal();
+        } else {
+          toast("Access Denied", "You must be signed in as a customer to access the cart.");
+        }
     });
 
       // update total when cart quantity is changed

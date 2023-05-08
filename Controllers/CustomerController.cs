@@ -107,7 +107,6 @@ public class CustomerController : Controller
         join p in _dataContext.Products on r.ProductId equals p.ProductId
         join od in _dataContext.OrderDetails on p.ProductId equals od.ProductId
         join o in _dataContext.Orders on od.OrderId equals o.OrderId
-        where o.Customer.Email == User.Identity.Name
         select r).OrderBy(r => r.ProductId).ToList()
     );
 
