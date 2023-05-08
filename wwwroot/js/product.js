@@ -14,7 +14,7 @@ $(function () {
                 <td>${response[i].productName}</td>
                 <td class="text-right">${response[i].unitPrice.toFixed(2)}</td>
                 <td class="text-right">${response[i].unitsInStock}</td>
-                <td class="text-right rating" data-rating="${response[i].productId}">${getStars(rating)}</td>
+                <td class="text-right rating" data-id="${response[i].productId}">${getStars(rating)}</td>
                 </tr>`;
               $('#product_rows').append(row);
             }
@@ -25,7 +25,7 @@ $(function () {
         }
       });
     }
-
+    
     $('#CategoryId').on('change', function(){
       $('#product_rows').data('id', $(this).val());
       getProducts();
@@ -37,12 +37,10 @@ $(function () {
 
     // delegated event listener
     $('#product_rows').on('click', 'tr', function(){
-        $('.rating').on('click', function(){
-          console.log('click', $(this).data('rating'))
-          var url = '@Url.Action("Reviews", "Product", new {id = "__id__"})';
-          // window.location.href = url.replace('__id__', $(this).data('rating'));
-          window.location.href = '/product/reviews/' + $(this).data('rating');
-        }) 
+      $('.rating').on('click', function(){
+        
+        window.location.href = '/product/reviews/' + $(this).data('id');
+      })
         // make sure a customer is logged in
         if ($('#User').data('customer').toLowerCase() == "true"){
           $('#ProductId').html($(this).data('id'));
