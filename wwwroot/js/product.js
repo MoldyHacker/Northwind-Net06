@@ -37,11 +37,12 @@ $(function () {
 
     // delegated event listener
     $('#product_rows').on('click', 'tr', function(){
-        $('.rating').on('click', function(){console.log('click', $(this).data('id'))}) 
-          // console.log('click', $(this).data('id'));
-          // var url = '@Url.Action("Reviews", "Product", new {id = "__id__"})';
-          // window.location.href = url.replace('__id__', $(this).data('id'))
-        
+        $('.rating').on('click', function(){
+          console.log('click', $(this).data('rating'))
+          var url = '@Url.Action("Reviews", "Product", new {id = "__id__"})';
+          // window.location.href = url.replace('__id__', $(this).data('rating'));
+          window.location.href = '/product/reviews/' + $(this).data('rating');
+        }) 
         // make sure a customer is logged in
         if ($('#User').data('customer').toLowerCase() == "true"){
           $('#ProductId').html($(this).data('id'));
@@ -112,7 +113,6 @@ $(function () {
         default:
           return '<i class="fa fa-star checked"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>';
           break;
-
         }
        
     }
