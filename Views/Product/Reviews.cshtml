@@ -1,7 +1,7 @@
 @model IEnumerable<Review>
 <h2 class="mt-3"><i class="fa-solid fa-cart-shopping"></i> Reviews</h2>
 
-@Model.First().ProductId.ToString()
+<span id="productName"></span>
 <table class="table table-hover">
   <thead>
     <tr>
@@ -11,7 +11,10 @@
       
     </tr>
 </thead>
-<tbody>
+<tbody id="productReview_rows" data-id="@Model.First().ProductId">
+
+</tbody>
+@* <tbody>
 <div class="list-group">
     @foreach (Review r in Model)
     {
@@ -22,7 +25,7 @@
       </tr>
     }
 </div>
-</tbody>
+</tbody> *@
 </table> 
 
 @* <div class="list-group">
@@ -36,26 +39,26 @@
 
 @section Scripts
 {
-<script>
-$(function () {
-    getProduct()
+<script = src="../../js/product.js">
+</script>
+}
+
+
+@* $(function () {
+    getReview()
     
-    function getProduct() {
-      var id = $('#Discontinued').prop('checked') ? "" : "/discontinued/false";
+    function getReview() {
       $.getJSON({
-        url: `../../api/category/${$('#product_rows').data('id')}/productwithreviews` + discontinued,
+        url: `../../api/product/${$('#productReview_rows').data('id')}/reviews`,
         success: function (response, textStatus, jqXhr) {
-          $('#product_rows').html("");
+          $('#productReview_rows').html("");
             for (var i = 0; i < response.length; i++){
-              var css = response[i].discontinued ? " class='discontinued'" : "";
-              var rating = Math.round(response[i].avgRating);
-              var row = `<tr${css} data-id="${response[i].productId}" data-name="${response[i].productName}" data-price="${response[i].unitPrice}">
-                <td>${response[i].productName}</td>
-                <td class="text-right">${response[i].unitPrice.toFixed(2)}</td>
-                <td class="text-right">${response[i].unitsInStock}</td>
-                <td class="text-right rating" data-rating="${response[i].productId}">${getStars(rating)}</td>
+              var row = `<tr data-id="${response[i].productId}" data-name="${response[i].productName}" data-price="${response[i].unitPrice}">
+                <td>${response[i].dateTime}</td>
+                <td class="text-center">${getStars(response[i].rating)}</td>
+                <td class="text-right">${response[i].comment}</td>
                 </tr>`;
-              $('#product_rows').append(row);
+              $('#productReview_rows').append(row);
             }
         },
         error: function (jqXHR, textStatus, errorThrown) {
@@ -64,6 +67,29 @@ $(function () {
         }
       });
     }
-}
-</script>
-}
+
+    function getStars(rating){
+      switch(rating){
+        case 1:
+          return '<i class="fa fa-star checked"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>';
+          break;
+        case 2:
+          return '<i class="fa fa-star checked"></i><i class="fa fa-star checked"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>';
+          break;
+        case 3:
+          return '<i class="fa fa-star checked"></i><i class="fa fa-star checked"></i><i class="fa fa-star checked"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>';
+          break;
+        case 4:
+          return '<i class="fa fa-star checked"></i><i class="fa fa-star checked"></i><i class="fa fa-star checked"></i><i class="fa fa-star checked"></i><i class="fa fa-star"></i>';
+          break;
+        case 5:
+          return '<i class="fa fa-star checked"></i><i class="fa fa-star checked"></i><i class="fa fa-star checked"></i><i class="fa fa-star checked"></i><i class="fa fa-star checked"></i>';
+          break;
+        default:
+          return '<i class="fa fa-star checked"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>';
+          break;
+        }
+       
+    }
+
+}) *@

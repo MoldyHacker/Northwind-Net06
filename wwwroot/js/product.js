@@ -1,5 +1,6 @@
 $(function () {
     getProducts()
+    getReviews()
     
     function getProducts() {
       var discontinued = $('#Discontinued').prop('checked') ? "" : "/discontinued/false";
@@ -17,6 +18,29 @@ $(function () {
                 <td class="text-right rating" data-id="${response[i].productId}">${getStars(rating)}</td>
                 </tr>`;
               $('#product_rows').append(row);
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+          // log the error to the console
+          console.log("The following error occured: " + textStatus, errorThrown);
+        }
+      });
+    }
+    function getReviews() {
+      $.getJSON({
+        url: `../../api/product/${$('#productReview_rows').data('id')}/reviews`,
+        success: function (response, textStatus, jqXhr) {
+          // $('span#productName').html("");
+          // var name = response[i].productName;
+          // $('span#productName').append(name);
+          $('#productReview_rows').html("");
+            for (var i = 0; i < response.length; i++){
+              var row = `<tr data-id="${response[i].productId}" data-name="${response[i].productName}" data-price="${response[i].unitPrice}">
+                <td>${response[i].dateTime}</td>
+                <td class="text-center">${getStars(response[i].rating)}</td>
+                <td class="text-right">${response[i].comment}</td>
+                </tr>`;
+              $('#productReview_rows').append(row);
             }
         },
         error: function (jqXHR, textStatus, errorThrown) {
@@ -112,6 +136,7 @@ $(function () {
           return '<i class="fa fa-star checked"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>';
           break;
         }
+        
        
     }
     });

@@ -34,7 +34,8 @@ namespace Northwind.Controllers
         [HttpGet, Route("api/category/{CategoryId}/product/discontinued/{discontinued}")]
         // returns all products in a specific category where discontinued = true/false
         public IEnumerable<Product> GetByCategoryDiscontinued(int CategoryId, bool discontinued) => _dataContext.Products.Where(p => p.CategoryId == CategoryId && p.Discontinued == discontinued).OrderBy(p => p.ProductName);
-        
+        [HttpGet, Route("api/product/{productId}/reviews")]
+        public IEnumerable<Review> GetProductReviews(int productId) => _dataContext.Reviews.Where(p => p.ProductId == productId);
         [HttpGet, Route("api/category/{CategoryId}/productwithreviews")]
         public IEnumerable<ProductReview> GetByCategoryWithRating(int CategoryId){
             var products = _dataContext.Products.Include("Reviews").Where(p => p.CategoryId == CategoryId).OrderBy(p => p.ProductName);
@@ -93,7 +94,7 @@ namespace Northwind.Controllers
         public IEnumerable<Review> GetAllReviews()=>_dataContext.Reviews.OrderBy(r => r.ReviewId);
         
         [HttpGet, Route("api/review/{ProductId}")]
-        public IEnumerable<Review> GetProductReviews(int ProductId) => _dataContext.Reviews.Include("Customer").Where(r => r.ProductId == ProductId);
+        // public IEnumerable<Review> GetProductReviews(int ProductId) => _dataContext.Reviews.Include("Customer").Where(r => r.ProductId == ProductId);
         // public IEnumerable<Review> GetProductReview(int ProductId, int CustomerId) => _dataContext.Reviews.Where(r => r.ProductId == ProductId && r.CustomerId == CustomerId).OrderBy(r => r.Product.ProductName);
         
         [HttpPost, Route("api/addtocart")]
