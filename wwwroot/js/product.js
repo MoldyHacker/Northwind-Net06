@@ -14,7 +14,7 @@ $(function () {
                 <td>${response[i].productName}</td>
                 <td class="text-right">${response[i].unitPrice.toFixed(2)}</td>
                 <td class="text-right">${response[i].unitsInStock}</td>
-                <td class="text-right">${getStars(rating)}</td>
+                <td class="text-right rating" data-id="${response[i].productId}">${getStars(rating)}</td>
                 </tr>`;
               $('#product_rows').append(row);
             }
@@ -25,7 +25,7 @@ $(function () {
         }
       });
     }
-
+    
     $('#CategoryId').on('change', function(){
       $('#product_rows').data('id', $(this).val());
       getProducts();
@@ -37,6 +37,10 @@ $(function () {
 
     // delegated event listener
     $('#product_rows').on('click', 'tr', function(){
+      $('.rating').on('click', function(){
+        
+        window.location.href = '/product/reviews/' + $(this).data('id');
+      })
         // make sure a customer is logged in
       if ($('#User').data('customer').toLowerCase() == "true"){
         $('#ProductId').html($(this).data('id'));
