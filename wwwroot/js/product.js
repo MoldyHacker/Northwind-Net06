@@ -42,16 +42,16 @@ $(function () {
         window.location.href = '/product/reviews/' + $(this).data('id');
       })
         // make sure a customer is logged in
-      if ($('#User').data('customer').toLowerCase() == "true"){
-        $('#ProductId').html($(this).data('id'));
-        $('#ProductName').html($(this).data('name'));
-        $('#UnitPrice').html($(this).data('price').toFixed(2));
-        // calculate and display total in modal
-        $('#Quantity').change();
-        $('#cartModal').modal();
-      } else {
-        toast("Access Denied", "You must be signed in as a customer to access the cart.");
-      }
+        if ($('#User').data('customer').toLowerCase() == "true"){
+          $('#ProductId').html($(this).data('id'));
+          $('#ProductName').html($(this).data('name'));
+          $('#UnitPrice').html($(this).data('price').toFixed(2));
+          // calculate and display total in modal
+          $('#Quantity').change();
+          $('#cartModal').modal();
+        } else {
+          toast("Access Denied", "You must be signed in as a customer to access the cart.");
+        }
     });
 
       // update total when cart quantity is changed
