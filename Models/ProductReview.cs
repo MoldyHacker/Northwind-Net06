@@ -5,5 +5,6 @@ public class ProductReview
     public string ProductName { get; set; }
     public decimal UnitPrice { get; set; }
     public short UnitsInStock { get; set; }
+    public bool Discontinued { get; set;}
     public decimal AvgRating { get; set; }
 }
