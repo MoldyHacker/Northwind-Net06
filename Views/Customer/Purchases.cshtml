@@ -28,7 +28,7 @@
     @foreach (Product p in Model)
     {
         @* <a asp-action="PurchaseDetail" asp-route-id="@o.OrderId" class="list-group-item list-group-item-action">@o.OrderId - ORDER DATE: @o.OrderDate - SHIPPED DATE: @o.ShippedDate</a> *@
-        <a class="list-group-item list-group-item-action">@p.ProductName</a>
+        <a asp-Controller="Customer" asp-action="InputReview" asp-route-id="@p.ProductId" class="list-group-item list-group-item-action">@p.ProductName</a>
     }
 </div>
 

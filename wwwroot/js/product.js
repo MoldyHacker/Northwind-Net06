@@ -31,7 +31,7 @@ $(function () {
         url: `../../api/product/${$('#productReview_rows').data('id')}/reviews`,
         success: function (response, textStatus, jqXhr) {
           // $('span#productName').html("");
-          // var name = response[i].productName;
+          // var name = response[i].product.productName;
           // $('span#productName').append(name);
           $('#productReview_rows').html("");
             for (var i = 0; i < response.length; i++){
