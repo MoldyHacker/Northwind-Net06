@@ -89,7 +89,8 @@ namespace Northwind.Controllers
             };
             return productReviews;
         }
-        
+        [HttpPost, Route("api/addreview")]
+        public Review Post([FromBody] ReviewJSON review) => _dataContext.InputReview(review);
         [HttpGet, Route("api/review")]
         public IEnumerable<Review> GetAllReviews()=>_dataContext.Reviews.OrderBy(r => r.ReviewId);
         

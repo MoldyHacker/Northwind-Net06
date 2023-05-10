@@ -114,12 +114,12 @@ public class CustomerController : Controller
     
     [HttpPost, ValidateAntiForgeryToken]
     
-    public IActionResult InputReview(int id, Review review)
+    public IActionResult InputReview(int id, ReviewJSON reviewJSON)
     {
-        review.ProductId = id;
+        reviewJSON.productId = id;
         if(ModelState.IsValid)
         {
-            _dataContext.InputReview(review);
+            _dataContext.InputReview(reviewJSON);
             
         }
         return RedirectToAction("Reviews");

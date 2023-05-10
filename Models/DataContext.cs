@@ -31,18 +31,22 @@ public class DataContext : DbContext
     customerToUpdate.Fax = customer.Fax;
     SaveChanges();
   }
-  public void InputReview(Review review)
+  public Review InputReview(ReviewJSON reviewJSON)
   {
+    int CustomerID = Customers.FirstOrDefault(c => c.Email == reviewJSON.email).CustomerId;
+
+    Review review = new Review()
+    {
+      CustomerId = CustomerID,
+      ProductId = reviewJSON.productId,
+      Rating = reviewJSON.rating,
+      Comment = reviewJSON.comment
+    };
     Reviews.Add(review);
     SaveChanges();
+    return review;
   }
-  public void EditReview(Review review)
-  {
-    var reviewToUpdate = Reviews.FirstOrDefault(r => r.ReviewId == review.ReviewId);
-    reviewToUpdate.Rating = review.Rating;
-    reviewToUpdate.Comment = review.Comment;
-    SaveChanges();
-  }
+
   public CartItem AddToCart(CartItemJSON cartItemJSON)
   {
     int CustomerId = Customers.FirstOrDefault(c => c.Email == cartItemJSON.email).CustomerId;
@@ -71,3 +75,11 @@ public class DataContext : DbContext
     return cartItem;
   }
 }
+
+  // public void EditReview(Review review)
+  // {
+  //   var reviewToUpdate = Reviews.FirstOrDefault(r => r.ReviewId == review.ReviewId);
+  //   reviewToUpdate.Rating = review.Rating;
+  //   reviewToUpdate.Comment = review.Comment;
+  //   SaveChanges();
+  // }
