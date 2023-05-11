@@ -4,8 +4,7 @@
 
 <form method="post" asp-action="InputReview">
     <div asp-validation-summary="All"></div>
-    <input type="hidden" name="CustomerId" value="@ViewBag.CustomerId">
-    <input type="hidden" name="ProductId" value="@ViewBag.Id">
+    <input type="hidden" asp-for="@Model.ProductId" id="ProductId" name="ProductId" value="@ViewBag.Id">
     <div class="form-row">
         <div class="form-group col-md-6">
             <label asp-for="@Model.Rating">Rating (1-5)</label>
@@ -18,5 +17,5 @@
             <input asp-for="@Model.Comment" class="form-control" placeholder="Comment"/>
         </div>
     </div>
-    <button type="submit" class="btn btn-outline-primary">Submit</button>
+    <button type="submit" class="btn btn-outline-primary" id="inputReview">Submit</button>
 </form>

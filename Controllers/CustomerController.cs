@@ -117,15 +117,15 @@ public class CustomerController : Controller
     
     [HttpPost, ValidateAntiForgeryToken]
     
-    public IActionResult InputReview(int id, ReviewJSON reviewJSON)
+    public IActionResult InputReview(Review review)
     {
-        reviewJSON.productId = id;
-        if(ModelState.IsValid)
-        {
-            _dataContext.InputReview(reviewJSON);
-            
-        }
-        return RedirectToAction("Reviews");
+        //Need to add validation and error feedback for missed values when inputing reviews !!!!!
+
+        Customer customer = _dataContext.Customers.FirstOrDefault(c => c.Email == User.Identity.Name);
+        review.CustomerId = customer.CustomerId;
+        _dataContext.InputReview(review);
+
+        return RedirectToAction("Purchases");
     }
 
     // [Authorize(Roles = "northwind-customer")]

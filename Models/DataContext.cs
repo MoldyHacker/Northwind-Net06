@@ -31,20 +31,10 @@ public class DataContext : DbContext
     customerToUpdate.Fax = customer.Fax;
     SaveChanges();
   }
-  public Review InputReview(ReviewJSON reviewJSON)
+  public void InputReview(Review review)
   {
-    int CustomerID = Customers.FirstOrDefault(c => c.Email == reviewJSON.email).CustomerId;
-
-    Review review = new Review()
-    {
-      CustomerId = CustomerID,
-      ProductId = reviewJSON.productId,
-      Rating = reviewJSON.rating,
-      Comment = reviewJSON.comment
-    };
     Reviews.Add(review);
     SaveChanges();
-    return review;
   }
 
   public CartItem AddToCart(CartItemJSON cartItemJSON)

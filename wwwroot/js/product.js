@@ -12,9 +12,9 @@ $(function () {
               var css = response[i].discontinued ? " class='discontinued'" : "";
               var rating = Math.round(response[i].avgRating);
               var row = `<tr${css} data-id="${response[i].productId}" data-name="${response[i].productName}" data-price="${response[i].unitPrice}">
-                <td>${response[i].productName}</td>
-                <td class="text-right">${response[i].unitPrice.toFixed(2)}</td>
-                <td class="text-right">${response[i].unitsInStock}</td>
+                <td class="product">${response[i].productName}</td>
+                <td class="text-right product">${response[i].unitPrice.toFixed(2)}</td>
+                <td class="text-right product">${response[i].unitsInStock}</td>
                 <td class="text-right rating" data-id="${response[i].productId}">${getStars(rating)}</td>
                 </tr>`;
               $('#product_rows').append(row);
@@ -60,11 +60,7 @@ $(function () {
     });
 
     // delegated event listener
-    $('#product_rows').on('click', 'tr', function(){
-      $('.rating').on('click', function(){
-        
-        window.location.href = '/product/reviews/' + $(this).data('id');
-      })
+    $('#product_rows').on('click', '.product', function(){
         // make sure a customer is logged in
         if ($('#User').data('customer').toLowerCase() == "true"){
           $('#ProductId').html($(this).data('id'));
@@ -77,6 +73,10 @@ $(function () {
           toast("Access Denied", "You must be signed in as a customer to access the cart.");
         }
     });
+    $('#product_rows').on('click', '.rating', function(){
+
+      window.location.href = '/product/reviews/' + $(this).data('id');
+    })
 
       // update total when cart quantity is changed
     $('#Quantity').change(function () {
