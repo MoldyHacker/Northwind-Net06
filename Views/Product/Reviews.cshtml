@@ -1,5 +1,5 @@
 @model IEnumerable<Review>
-<div id="User" style="display:none;" data-email="@User.Identity.Name" data-customer='@User.IsInRole("northwind-customer")'></div>
+
 <h2 class="mt-3"><i class="fa-solid fa-cart-shopping"></i> Reviews</h2>
 
 <span id="productName"></span>
@@ -13,30 +13,8 @@
     </tr>
 </thead>
 <tbody id="productReview_rows" data-id="@Model.First().ProductId">
-
 </tbody>
-@* <tbody>
-<div class="list-group">
-    @foreach (Review r in Model)
-    {
-      <tr>
-        <td class="text-left">@r.DateTime</td>
-        <td class="text-center">@r.Rating</td>
-        <td class="text-right">@r.Comment</td>
-      </tr>
-    }
-</div>
-</tbody> *@
 </table> 
-
-@* <div class="list-group">
-    @foreach (Review r in Model)
-    {
-        <a class="list-group-item list-group-item-action">@r.DateTime - @r.Rating - @r.Comment</a>
-    }
-</div> *@
-
-
 
 @section Scripts
 {
@@ -44,53 +22,3 @@
 </script>
 }
 
-
-@* $(function () {
-    getReview()
-    
-    function getReview() {
-      $.getJSON({
-        url: `../../api/product/${$('#productReview_rows').data('id')}/reviews`,
-        success: function (response, textStatus, jqXhr) {
-          $('#productReview_rows').html("");
-            for (var i = 0; i < response.length; i++){
-              var row = `<tr data-id="${response[i].productId}" data-name="${response[i].productName}" data-price="${response[i].unitPrice}">
-                <td>${response[i].dateTime}</td>
-                <td class="text-center">${getStars(response[i].rating)}</td>
-                <td class="text-right">${response[i].comment}</td>
-                </tr>`;
-              $('#productReview_rows').append(row);
-            }
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-          // log the error to the console
-          console.log("The following error occured: " + textStatus, errorThrown);
-        }
-      });
-    }
-
-    function getStars(rating){
-      switch(rating){
-        case 1:
-          return '<i class="fa fa-star checked"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>';
-          break;
-        case 2:
-          return '<i class="fa fa-star checked"></i><i class="fa fa-star checked"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>';
-          break;
-        case 3:
-          return '<i class="fa fa-star checked"></i><i class="fa fa-star checked"></i><i class="fa fa-star checked"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>';
-          break;
-        case 4:
-          return '<i class="fa fa-star checked"></i><i class="fa fa-star checked"></i><i class="fa fa-star checked"></i><i class="fa fa-star checked"></i><i class="fa fa-star"></i>';
-          break;
-        case 5:
-          return '<i class="fa fa-star checked"></i><i class="fa fa-star checked"></i><i class="fa fa-star checked"></i><i class="fa fa-star checked"></i><i class="fa fa-star checked"></i>';
-          break;
-        default:
-          return '<i class="fa fa-star checked"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>';
-          break;
-        }
-       
-    }
-
-}) *@

@@ -110,7 +110,10 @@ public class CustomerController : Controller
     //     select r).OrderBy(r => r.ProductId).ToList()
     // );
 
-    public IActionResult InputReview(int id) => View();
+    public IActionResult InputReview(int id){
+        ViewBag.id = id;
+        return View();
+    }
     
     [HttpPost, ValidateAntiForgeryToken]
     
