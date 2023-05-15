@@ -35,7 +35,7 @@ namespace Northwind.Controllers
         // returns all products in a specific category where discontinued = true/false
         public IEnumerable<Product> GetByCategoryDiscontinued(int CategoryId, bool discontinued) => _dataContext.Products.Where(p => p.CategoryId == CategoryId && p.Discontinued == discontinued).OrderBy(p => p.ProductName);
         [HttpGet, Route("api/product/{productId}/reviews")]
-        public IEnumerable<Review> GetProductReviews(int productId) => _dataContext.Reviews.Where(p => p.ProductId == productId);
+        public IEnumerable<Review> GetProductReviews(int productId) => _dataContext.Reviews.Include("Customer").Include("Product").Where(p => p.ProductId == productId);
         [HttpGet, Route("api/category/{CategoryId}/productwithreviews")]
         public IEnumerable<ProductReview> GetByCategoryWithRating(int CategoryId){
             var products = _dataContext.Products.Include("Reviews").Where(p => p.CategoryId == CategoryId).OrderBy(p => p.ProductName);
@@ -59,19 +59,6 @@ namespace Northwind.Controllers
         [HttpGet, Route("api/category/{CategoryId}/productwithreviews/discontinued/{discontinued}")]
         // returns all products in a specific category where discontinued = true/false
         public IEnumerable<ProductReview> GetByCategoryDiscontinuedWithRating(int CategoryId, bool discontinued){
-            // return (from product in _dataContext.Products 
-            // join review in _dataContext.Reviews 
-            // on product.ProductId equals review.ProductId
-            // group review by product into g
-            // select new ProductReview 
-            // {
-            //     ProductId = g.Key.ProductId, 
-            //     ProductName = g.Key.ProductName,
-            //     UnitPrice = g.Key.UnitPrice,
-            //     UnitsInStock = g.Key.UnitsInStock,
-            //     AvgRating = (decimal)g.Average(r => r.Rating)
-            // }).ToList();
-
             var products = _dataContext.Products.Include("Reviews").Where(p => p.CategoryId == CategoryId && p.Discontinued == discontinued).OrderBy(p => p.ProductName);
             List<ProductReview> productReviews = new List<ProductReview>();
             foreach(var p in products){

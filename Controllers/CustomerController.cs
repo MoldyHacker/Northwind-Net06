@@ -78,16 +78,26 @@ public class CustomerController : Controller
             ModelState.AddModelError("", error.Description);
         }
     }
+
+
+        // public IActionResult Purchases() => View(_dataContext.Orders.OrderBy(o => o.OrderId).Where(o => o.Customer.Email == User.Identity.Name));
     [Authorize(Roles = "northwind-customer")]
-    // public IActionResult Purchases() => View(_dataContext.Orders.OrderBy(o => o.OrderId).Where(o => o.Customer.Email == User.Identity.Name));
     public IActionResult Purchases() => View(
+        // (from p in _dataContext.Products
+        // join od in _dataContext.OrderDetails on p.ProductId equals od.ProductId
+        // join o in _dataContext.Orders on od.OrderId equals o.OrderId
+        // join r in _dataContext.Reviews on o.CustomerId equals r.CustomerId
+        // where o.Customer.Email == User.Identity.Name
+        // select p).Distinct().OrderBy(p => p.ProductName).ToList()
         (from p in _dataContext.Products
         join od in _dataContext.OrderDetails on p.ProductId equals od.ProductId
         join o in _dataContext.Orders on od.OrderId equals o.OrderId
-        // join r in _dataContext.Reviews on o.CustomerId equals r.CustomerId
         where o.Customer.Email == User.Identity.Name
+        where !_dataContext.Reviews.Any(r => r.CustomerId == o.CustomerId && r.ProductId == p.ProductId)
         select p).Distinct().OrderBy(p => p.ProductName).ToList()
     );
+
+
     // TODO: Create custom model to update data for the page. 
 
     // [Authorize(Roles = "northwind-customer"), HttpPost, ValidateAntiForgeryToken]

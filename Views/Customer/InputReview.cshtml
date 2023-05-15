@@ -5,10 +5,18 @@
 <form method="post" asp-action="InputReview">
     <div asp-validation-summary="All"></div>
     <input type="hidden" asp-for="@Model.ProductId" id="ProductId" name="ProductId" value="@ViewBag.Id">
+
     <div class="form-row">
         <div class="form-group col-md-6">
-            <label asp-for="@Model.Rating">Rating (1-5)</label>
-            <input asp-for="@Model.Rating" min="1" max="5" class="form-control" placeholder="Rating"/>
+            <label asp-for="@Model.Rating">Rating</label>
+            <input type="hidden" asp-for="@Model.Rating" id="rating" class="form-control" name="Rating">
+            <div id="rating-input">
+                <span class="rating-star" data-value="1"><i class="fa fa-star checked"></i></span>
+                <span class="rating-star" data-value="2"><i class="fa fa-star checked"></i></span>
+                <span class="rating-star" data-value="3"><i class="fa fa-star checked"></i></span>
+                <span class="rating-star" data-value="4"><i class="fa fa-star checked"></i></span>
+                <span class="rating-star" data-value="5"><i class="fa fa-star checked"></i></span>
+            </div>
         </div>
     </div>
     <div class="form-row">
@@ -19,3 +27,40 @@
     </div>
     <button type="submit" class="btn btn-outline-primary" id="inputReview">Submit</button>
 </form>
+
+@section Scripts
+{
+  <script>
+    const stars = document.querySelectorAll('.rating-star');
+    const ratingInput = document.querySelector('#rating');
+    
+    let rating = 5;
+
+    stars.forEach((star) => {
+        star.addEventListener('click', () => {
+            const selectedValue = star.dataset.value;
+            rating = selectedValue;
+            updateStars(selectedValue);
+            console.log('Selected rating:', rating);
+        });
+    });
+
+    function updateStars(value) {
+    stars.forEach((star) => {
+        const starValue = star.dataset.value;
+        if (starValue <= value) {
+        star.querySelector('i').classList.add('fas');
+        star.querySelector('i').classList.add('checked')
+        star.querySelector('i').classList.remove('far');
+        } else {
+        star.querySelector('i').classList.remove('fas');
+        star.querySelector('i').classList.remove('checked');
+        star.querySelector('i').classList.add('far');
+        
+        }
+        });
+
+        ratingInput.value = value; // Update the hidden input field value
+    }
+  </script>
+}
