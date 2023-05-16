@@ -80,19 +80,19 @@ $(function () {
     })
 
     // delegated event listener
-    $('#product_rows').on('click', '.product', function(){
-        // make sure a customer is logged in
-        if ($('#User').data('customer').toLowerCase() === "true"){
-          $('#ProductId').html($(this).data('id'));
-          $('#ProductName').html($(this).data('name'));
-          $('#UnitPrice').html($(this).data('price').toFixed(2));
-          // calculate and display total in modal
-          $('#Quantity').change();
-          $('#cartModal').modal();
-        } else {
-          toast("Access Denied", "You must be signed in as a customer to access the cart.");
-        }
-    });
+    $('#product_rows').on('click', '.product',  function(){
+      // make sure a customer is logged in
+      if ($('#User').data('customer').toLowerCase() === "true"){
+        $('#ProductId').html($(this).parent().data('id'));
+        $('#ProductName').html($(this).parent().data('name'));
+        $('#UnitPrice').html($(this).parent().data('price').toFixed(2));
+        // calculate and display total in modal
+        $('#Quantity').change();
+        $('#cartModal').modal();
+      } else {
+        toast("Access Denied", "You must be signed in as a customer to access the cart.");
+      }
+  });
 
       // update total when cart quantity is changed
     $('#Quantity').change(function () {
