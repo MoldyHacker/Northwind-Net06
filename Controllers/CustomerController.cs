@@ -83,12 +83,7 @@ public class CustomerController : Controller
         // public IActionResult Purchases() => View(_dataContext.Orders.OrderBy(o => o.OrderId).Where(o => o.Customer.Email == User.Identity.Name));
     [Authorize(Roles = "northwind-customer")]
     public IActionResult Purchases() => View(
-        // (from p in _dataContext.Products
-        // join od in _dataContext.OrderDetails on p.ProductId equals od.ProductId
-        // join o in _dataContext.Orders on od.OrderId equals o.OrderId
-        // join r in _dataContext.Reviews on o.CustomerId equals r.CustomerId
-        // where o.Customer.Email == User.Identity.Name
-        // select p).Distinct().OrderBy(p => p.ProductName).ToList()
+
         (from p in _dataContext.Products
         join od in _dataContext.OrderDetails on p.ProductId equals od.ProductId
         join o in _dataContext.Orders on od.OrderId equals o.OrderId
@@ -98,47 +93,46 @@ public class CustomerController : Controller
     );
 
 
-    // TODO: Create custom model to update data for the page. 
-
-    // [Authorize(Roles = "northwind-customer"), HttpPost, ValidateAntiForgeryToken]
-    // public IActionResult Purchases(Customer customer)
-    // {
-    //     // Edit customer info
-    //     _dataContext.EditCustomer(customer);
-    //     return RedirectToAction("Index", "Home");
-    // }
-//     public IActionResult PurchaseDetail(int id)
-//     {
-//     // ViewBag.id = id;
-//     return View(_dataContext.OrderDetails.OrderBy(o => o.OrderDetailId).Where(o => o.OrderId == id));
-//   }
-    // public IActionResult Reviews() => View(
-    //     (from r in _dataContext.Reviews
-    //     join p in _dataContext.Products on r.ProductId equals p.ProductId
-    //     join od in _dataContext.OrderDetails on p.ProductId equals od.ProductId
-    //     join o in _dataContext.Orders on od.OrderId equals o.OrderId
-    //     select r).OrderBy(r => r.ProductId).ToList()
-    // );
-
     public IActionResult InputReview(int id){
         ViewBag.id = id;
         return View();
     }
     
-    [HttpPost, ValidateAntiForgeryToken]
-    
+    [Authorize(Roles = "northwind-customer"), HttpPost, ValidateAntiForgeryToken]
     public IActionResult InputReview(Review review)
+    {  
+    if (review.Rating == 0)
     {
-        //Need to add validation and error feedback for missed values when inputing reviews !!!!!
-
-        Customer customer = _dataContext.Customers.FirstOrDefault(c => c.Email == User.Identity.Name);
-        review.CustomerId = customer.CustomerId;
-        _dataContext.InputReview(review);
-
-        return RedirectToAction("Purchases");
+        ModelState.AddModelError("review.Rating", "Rating is required.");
     }
 
-    // [Authorize(Roles = "northwind-customer")]
-    // public IActionResult Reviews() => View(_dataContext.Reviews.Where(r => r.Customer.Email == User.Identity.Name).OrderBy(r => r.DateTime));
+    Customer customer = _dataContext.Customers.FirstOrDefault(c => c.Email == User.Identity.Name);
+    
+    if (customer == null)
+    {
+        ModelState.AddModelError("", "Customer not found.");
+    }
 
+    if (!ModelState.IsValid)
+    {
+        return View(review); // Return the view with model errors displayed
+    }
+else {
+    try
+    {
+        review.CustomerId = customer.CustomerId;
+        _dataContext.InputReview(review);
+        return RedirectToAction("Purchases");
+    }
+    catch (Exception ex)
+    {
+        // Log the exception or handle it as needed
+        ModelState.AddModelError("", "An error occurred while saving the review.");
+        return View(review); // Return the view with the generic error message
+    }
+}
+    
+
+    
+    }
 }
