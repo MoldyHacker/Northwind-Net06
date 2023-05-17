@@ -98,41 +98,14 @@ public class CustomerController : Controller
         return View();
     }
     
-    [Authorize(Roles = "northwind-customer"), HttpPost, ValidateAntiForgeryToken]
+    // [Authorize(Roles = "northwind-customer"), HttpPost, ValidateAntiForgeryToken]
+    [Authorize(Roles = "northwind-customer"), HttpPost]
     public IActionResult InputReview(Review review)
-    {  
-    if (review.Rating == 0)
     {
-        ModelState.AddModelError("review.Rating", "Rating is required.");
-    }
-
-    Customer customer = _dataContext.Customers.FirstOrDefault(c => c.Email == User.Identity.Name);
-    
-    if (customer == null)
-    {
-        ModelState.AddModelError("", "Customer not found.");
-    }
-
-    if (!ModelState.IsValid)
-    {
-        return View(review); // Return the view with model errors displayed
-    }
-else {
-    try
-    {
+        Customer customer = _dataContext.Customers.FirstOrDefault(c => c.Email == User.Identity.Name);
         review.CustomerId = customer.CustomerId;
+        review.DateTime = DateTime.Now;
         _dataContext.InputReview(review);
         return RedirectToAction("Purchases");
-    }
-    catch (Exception ex)
-    {
-        // Log the exception or handle it as needed
-        ModelState.AddModelError("", "An error occurred while saving the review.");
-        return View(review); // Return the view with the generic error message
-    }
-}
-    
-
-    
     }
 }
