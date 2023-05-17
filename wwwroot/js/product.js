@@ -55,15 +55,16 @@ $(function () {
       });
     };
     
-    // function displayProductName(id) {
-    //   $.getJSON({
-    //     url: `../../api/product/${id}`,
-    //     success: function (response, textStatus, jqXhr) {
-    //       $('#productName').html("");
-    //       $('#productName').append(response.toString);
-    //     }
-    //   });
-    // };
+    function displayProductName(id) {
+      $.getJSON({
+        url: `../../api/product/${id}`,
+        success: function (response, textStatus, jqXhr) {
+          $('#productName').html("");
+          $('#productName').append(response.toString);
+          console.log('response: ',response.toString);
+        }
+      });
+    };
 
     $('#CategoryId').on('change', function(){
       $('#product_rows').data('id', $(this).val());
@@ -77,6 +78,7 @@ $(function () {
 
     $('#product_rows').on('click', '.rating', function(){
       window.location.href = '/product/reviews/' + $(this).data('id');
+      displayProductName();
     })
 
     // delegated event listener
