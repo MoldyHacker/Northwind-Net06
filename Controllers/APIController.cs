@@ -35,7 +35,7 @@ namespace Northwind.Controllers
         // returns all products in a specific category where discontinued = true/false
         public IEnumerable<Product> GetByCategoryDiscontinued(int CategoryId, bool discontinued) => _dataContext.Products.Where(p => p.CategoryId == CategoryId && p.Discontinued == discontinued).OrderBy(p => p.ProductName);
         [HttpGet, Route("api/product/{productId}/reviews")]
-        public IEnumerable<Review> GetProductReviews(int productId) => _dataContext.Reviews.Include("Customer").Include("Product").Where(p => p.ProductId == productId);
+        public IEnumerable<Review> GetProductReviews(int productId) => _dataContext.Reviews.Include("Customer").Include("Product").Where(p => p.ProductId == productId).OrderBy(d => d.DateTime);
         [HttpGet, Route("api/category/{CategoryId}/productwithreviews")]
         public IEnumerable<ProductReview> GetByCategoryWithRating(int CategoryId){
             var products = _dataContext.Products.Include("Reviews").Where(p => p.CategoryId == CategoryId).OrderBy(p => p.ProductName);

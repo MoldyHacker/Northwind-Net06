@@ -37,8 +37,9 @@ $(function () {
           // $('span#productName').append(name);
           $('#productReview_rows').html("");
             for (var i = 0; i < response.length; i++){
+              var dateTime = new Date(response[i].dateTime).toLocaleDateString();
               var row = `<tr data-id="${response[i].productId}" data-name="${response[i].productName}">
-                <td>${response[i].dateTime}</td>
+                <td>${dateTime}</td>
                 <td class="text-center">${getStars(response[i].rating)}</td>
                 <td class="text-right">
                 ${response[i].comment ?? "No Comment Avalible"}
